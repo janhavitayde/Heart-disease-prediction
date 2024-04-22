@@ -1,0 +1,19 @@
+import numpy as np
+random_array = np.random.randint(1, 100, 100)  # Example random array
+sorted_array = np.sort(random_array)
+n = len(random_array)
+
+mean = sum(random_array) / n
+
+if n % 2 == 0:
+    median = (sorted_array[n // 2 - 1] + sorted_array[n // 2]) / 2
+else:
+    median = sorted_array[n // 2]
+
+sum_squared_diff = sum((x - mean) ** 2 for x in random_array)
+std_dev = (sum_squared_diff / n) ** 0.5
+
+skewness = std_dev / (3 * (mean - median))
+
+print("Karl Pearson skewness of the random array:", skewness)
+

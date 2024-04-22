@@ -1,0 +1,15 @@
+import pandas as pd
+col1 = 'age'  # Example column 1
+col2 = 'chol'  # Example column 2
+
+data_subset = data[[col1, col2]]
+
+mean_col1 = data_subset[col1].mean()
+mean_col2 = data_subset[col2].mean()
+
+numerator = ((data_subset[col1] - mean_col1) * (data_subset[col2] - mean_col2)).sum() #(xi - X) (yi - Y)
+denominator = (((data_subset[col1] - mean_col1) ** 2).sum() * ((data_subset[col2] - mean_col2) ** 2).sum()) ** 0.5  
+
+pearson_r = numerator / denominator
+
+print("Pearson's r between", col1, "and", col2, "is:", pearson_r)

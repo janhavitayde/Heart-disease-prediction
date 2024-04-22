@@ -1,0 +1,36 @@
+column_name = 'age'
+values = data[column_name] 
+
+# range
+range_value = max(values) - min(values)
+print("Range of column", column_name, ":", range_value)
+
+# quartiles
+sorted_values = sorted(values)
+q1_index = int(len(sorted_values) * 0.25)
+q1 = sorted_values[q1_index]
+
+median_index = int(len(sorted_values) * 0.5)
+q2 = sorted_values[median_index]
+
+q3_index = int(len(sorted_values) * 0.75)
+q3 = sorted_values[q3_index]
+
+print("(Q1):", q1)
+print("(Q2):", q2)
+print(" (Q3):", q3)
+
+# variance
+mean_value = sum(values) / len(values)
+squared_deviations = [(value - mean_value) ** 2 for value in values]
+variance = sum(squared_deviations) / len(squared_deviations)
+print("Variance of column", column_name, ":", variance)
+
+#std
+std_deviation = variance ** 0.5
+print("Standard Deviation of column", column_name, ":", std_deviation)
+
+#abs std
+abs_deviations = [abs(value - mean_value) for value in values]
+avg_abs_deviation = sum(abs_deviations) / len(abs_deviations)
+print("Average Absolute Deviation of column", column_name, ":", avg_abs_deviation)

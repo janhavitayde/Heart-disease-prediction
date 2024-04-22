@@ -1,0 +1,31 @@
+1. Mean
+values = data["age"]  
+mean_value = sum(values) / len(values)
+print("Mean", ":", mean_value)
+
+2. Median 
+#median
+val = data["age"]
+sorted_val = sorted(val)
+n = len(sorted_val)
+if n % 2 == 0:
+  median = (sorted_val[n//2 -1] + sorted_val[n//2])/2
+else:
+  median = (sorted_val[n//2])
+print (median)
+
+3. Mode
+column_name = 'age'
+values = data[column_name]
+value_counts = {}
+for value in values:
+    if value in value_counts:
+        value_counts[value] += 1
+    else:
+        value_counts[value] = 1
+max_count = max(value_counts.values())
+modes = [value for value, count in value_counts.items() if count == max_count]
+if len(modes) > 1:
+    print("Modes of column", column_name, ":", modes)
+else:
+    print("Mode of column", column_name, ":", modes[0])

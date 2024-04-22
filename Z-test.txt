@@ -1,0 +1,34 @@
+import numpy as np
+import pandas as pd
+
+data = pd.read_csv('diabetes.csv')
+
+sample_dataa = data['Age']
+
+from scipy import stats
+
+def one_sample_ztest(sample_data, population_mean, population_stddev, alpha=0.05):
+    # Calculating sample mean and standard deviation
+    sample_mean = sum(sample_data) / len(sample_data)
+    sample_stddev = population_stddev / (len(sample_data) ** 0.5)
+    
+    # Calculating Z-score
+    z_score = (sample_mean - population_mean) / sample_stddev
+    
+    # Calculating p-value
+    p_value = 2 * (1 - stats.norm.cdf(abs(z_score))) # Two-tailed test
+    
+    # Comparing p-value with significance level
+    if p_value < alpha:
+        print("Reject null hypothesis: There is enough evidence to reject the claim.")
+    else:
+        print("Fail to reject null hypothesis: There is not enough evidence to reject the claim.")
+    
+    return z_score, p_value
+
+population_meann = sample_dataa.mean()
+population_stddevv = np.std(sample_dataa)
+alphaa = 0.5
+z_score, p_value = one_sample_ztest(sample_dataa, population_meann, population_stddevv, alphaa)
+print("Z-score:", z_score)
+print("P-value:", p_value)

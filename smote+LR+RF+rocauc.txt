@@ -1,0 +1,61 @@
+import pandas as pd
+from imblearn.over_sampling import SMOTE
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, accuracy_score
+
+X = data.drop('Outcome', axis=1)
+y = data['Outcome']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+smote = SMOTE(random_state=42)
+X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
+
+lr_model = LogisticRegression(random_state=42)
+lr_model.fit(X_train_resampled, y_train_resampled)
+y_pred = lr_model.predict(X_test)
+print("Accuracy Score:", accuracy_score(y_test, y_pred))
+print("\nClassification Report:\n", classification_report(y_test, y_pred))
+
+rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
+rf_model.fit(X_train, y_train)
+y_pred = rf_model.predict(X_test)
+print("Accuracy Score:", accuracy_score(y_test, y_pred))
+print("\nClassification Report:\n", classification_report(y_test, y_pred))
+
+----------------------------
+ROC AUC
+---------------------------
+rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
+rf_model.fit(X_train, y_train)
+y_pred_proba = rf_model.predict_proba(X_test)[:, 1]
+
+# Compute ROC curve and AUC score
+fpr, tpr, thresholds = roc_curve(y_test, y_pred_proba)
+roc_auc = roc_auc_score(y_test, y_pred_proba)
+
+# Plot ROC curve
+plt.figure(figsize=(8, 6))
+plt.plot(fpr, tpr, color='blue', label='ROC curve (AUC = {:.2f})'.format(roc_auc))
+plt.plot([0, 1], [0, 1], color='red', linestyle='--', label='Random Guess')
+plt.xlabel('False Positive Rate (FPR)')
+plt.ylabel('True Positive Rate (TPR)')
+plt.title('ROC Curve for Random Forest Classifier')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+------------------
+conf matrix
+------------------
+from sklearn.metrics import confusion_matrix
+
+# Create confusion matrix
+cm = confusion_matrix(y_test, y_pred)
+
+# Print confusion matrix
+print("Confusion Matrix:")
+print(cm)

@@ -1,0 +1,45 @@
+import matplotlib.pyplot as plt
+from sklearn.neighbors import NearestNeighbors
+
+# Assuming 'data' is your DataFrame containing the dataset
+X = data[['trestbps', 'chol']]
+
+# K-nearest neighbors (KNN) outlier detection
+k = 5  # Number of nearest neighbors
+knn_model = NearestNeighbors(n_neighbors=k)
+knn_model.fit(X)
+distances, _ = knn_model.kneighbors(X)
+avg_distances = np.mean(distances, axis=1)
+threshold_knn = np.percentile(avg_distances, 95)  # Adjust percentile as needed
+outliers_knn = X[avg_distances > threshold_knn]
+
+# Visualization
+plt.figure(figsize=(8, 5))
+
+# Scatter plot of 'trestbps' vs 'chol' for all data points
+plt.scatter(X['trestbps'], X['chol'], color='blue', label='Inliers')
+plt.scatter(outliers_knn['trestbps'], outliers_knn['chol'], color='red', label='Outliers (KNN)')
+
+plt.title('Outlier Detection using K-nearest Neighbors (KNN)')
+plt.xlabel('Resting Blood Pressure (trestbps)')
+plt.ylabel('Serum Cholesterol (chol)')
+plt.legend()
+
+# Displaying the number of outliers
+num_outliers = len(outliers_knn)
+print(num_outliers)
+
+plt.tight_layout()
+plt.show()
+
+# Remove outliers from 'data'
+data_filtered = data.drop(outliers_knn.index)
+print(len(data_filtered))
+# Visualization
+plt.figure(figsize=(8, 5))
+
+plt.scatter(data_filtered['trestbps'], data_filtered['chol'], color='green', label = 'cleaned data')
+plt.title('Outlier Detection using K-nearest Neighbors (KNN)')
+plt.xlabel('Resting Blood Pressure (trestbps)')
+plt.ylabel('Serum Cholesterol (chol)')
+plt.legend()

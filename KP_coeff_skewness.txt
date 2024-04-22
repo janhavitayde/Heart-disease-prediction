@@ -1,0 +1,25 @@
+import pandas as pd
+import numpy as np
+
+column_name = 'age' 
+column_data = data[column_name]
+
+#mean_column = np.mean(column_data)
+mean_column = sum(column_data) / len(column_data)
+
+#median_column = np.median(column_data)
+sorted_value = sorted(column_data)
+n = len(sorted_value)
+if n%2 == 0:
+  median_column = (sorted_value[n//2 -1] + sorted_value[n//2])//2
+else:
+  median_column = sorted_value[n//2]
+
+#std_dev_column = np.std(column_data)
+squared_deviations = [(value - mean_column) ** 2 for value in column_data]
+variance = sum(squared_deviations) / len(squared_deviations)
+std_dev_column = variance ** 0.5
+
+# Calculate Pearson's skewness coefficient
+skewness = 3 * (mean_column - median_column) / std_dev_column
+print("Pearson's skewness coefficient :", skewness)

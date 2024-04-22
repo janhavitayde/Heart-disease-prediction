@@ -1,0 +1,23 @@
+column_to_analyze = 'Glucose'
+
+lof = LocalOutlierFactor(n_neighbors=50, contamination=0.1)  
+outlier_scores = lof.fit_predict(data)
+
+plt.figure(figsize=(10, 6))
+plt.scatter(data[column_to_analyze], -lof.negative_outlier_factor_, c='blue', label='LOF Score')
+outlier_indices = np.where(outlier_scores == -1)[0]
+plt.scatter(data.iloc[outlier_indices][column_to_analyze], -lof.negative_outlier_factor_[outlier_indices], c='red', label='Outlier')
+
+plt.xlabel(column_to_analyze)
+plt.ylabel('LOF Score')
+plt.title('Local Outlier Factor (LOF) Score on {}'.format(column_to_analyze))
+plt.legend()
+plt.show()
+
+outliers_indices = np.where(outlier_scores == -1)[0]
+# Remove outliers from the DataFrame
+data_cleaned = data.drop(outliers_indices)
+
+# Display the cleaned DataFrame
+print("Original DataFrame shape:", data.shape)
+print("Cleaned DataFrame shape:", data_cleaned.shape)

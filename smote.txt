@@ -1,0 +1,19 @@
+import numpy as np
+import pandas as pd
+from imblearn.over_sampling import SMOTE 
+data = pd.read_csv("heart_disease_data.csv")
+# Separate features and target variable 
+X_smote = data.drop(columns=['target']) 
+y_smote = data['target'] 
+
+y_smote.value_counts()
+
+# Initialize SMOTE 
+smote = SMOTE() 
+ 
+# Apply SMOTE to the dataset 
+X_resampled, y_resampled = smote.fit_resample(X_smote, y_smote) 
+ 
+# Display the count of each class after applying SMOTE 
+print("Class distribution after applying SMOTE:") 
+print(y_resampled.value_counts())

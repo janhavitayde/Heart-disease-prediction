@@ -1,0 +1,25 @@
+import numpy as np
+from scipy import stats
+import pandas as pd
+df = pd.read_csv('diabetes.csv')
+
+#Null Hypothesis (H0): There is no significant difference in the mean blood pressure between the two groups.
+#Alternative Hypothesis (H1): There is a significant difference in the mean blood pressure between the two groups.
+
+blood_pressure_diabetic = df[df['Outcome'] == 1]['BloodPressure']
+blood_pressure_non_diabetic = df[df['Outcome'] == 0]['BloodPressure']
+
+z_stat, p_value = stats.ttest_ind(blood_pressure_diabetic, blood_pressure_non_diabetic)
+
+# Define significance level (alpha)
+alpha = 0.05
+
+# Print Z-test results
+print("Z-statistic:", z_stat)
+print("P-value:", p_value)
+
+# Compare p-value to alpha to make a decision
+if p_value < alpha:
+    print("Reject the null hypothesis. There is a significant difference in mean blood pressure.")
+else:
+    print("Accept the null hypothesis. There is no significant difference in mean blood pressure.")

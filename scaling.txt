@@ -1,0 +1,10 @@
+import numpy as np
+from sklearn.preprocessing import MinMaxScaler
+min_max_scaler = MinMaxScaler()
+data_minmax_scaled = min_max_scaler.fit_transform(data)
+
+
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+data_scaled = scaler.fit_transform(data)
